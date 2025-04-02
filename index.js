@@ -24,7 +24,7 @@ const init = async () => {
   await client.query(SQL);
   console.log("tables created");
 
-  SQL = /* SQL */ `
+  SQL = /* sql */ `
         INSERT INTO flavors(txt, ranking) VALUES ('pickle', 5);
         INSERT INTO flavors(txt) VALUES('bread');
         INSERT INTO flavors(txt, ranking) VALUES('yellow', 1);
@@ -32,13 +32,11 @@ const init = async () => {
   await client.query(SQL);
   console.log("seeded database")
 
-  const port = process.env.PORT || 3000; // Use environment port or default to 3000
+  const port = process.env.PORT || 3000;
   app.listen(port, () => console.log(`listen on port ${port}`));
 };
 
 init();
-
-// Routes
 
 // GET /api/flavors
 app.get("/api/flavors", async (req, res) => {
@@ -68,7 +66,7 @@ app.get("/api/flavors/:id", async (req, res) => {
   }
 });
 
-// POST /api/flavors
+// POST
 app.post("/api/flavors", async (req, res) => {
   const { txt, ranking } = req.body;
   try {
@@ -76,14 +74,14 @@ app.post("/api/flavors", async (req, res) => {
       "INSERT INTO flavors (txt, ranking) VALUES ($1, $2) RETURNING *",
       [txt, ranking]
     );
-    res.status(201).json(result.rows[0]); // 201 Created
+    res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// PUT /api/flavors/:id
+// PUT
 app.put("/api/flavors/:id", async (req, res) => {
   const { id } = req.params;
   const { txt, ranking } = req.body;
@@ -102,7 +100,7 @@ app.put("/api/flavors/:id", async (req, res) => {
   }
 });
 
-// DELETE /api/flavors/:id
+// DELETE
 app.delete("/api/flavors/:id", async (req, res) => {
   const { id } = req.params;
   try {
